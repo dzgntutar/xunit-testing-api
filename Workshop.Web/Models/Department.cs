@@ -1,8 +1,11 @@
-﻿namespace Workshop.Web.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Workshop.Web.Models
 {
     public class Department
     {
-        public int Id { get; set; } 
-        public string Name { get; set; }    
+        [Key]
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }
