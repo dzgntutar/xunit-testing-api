@@ -11,7 +11,6 @@ namespace Workshop.Web.Repository
         public Repository(SchoolDbContext context)
         {
             _context = context;
-
             _dbSet = _context.Set<TEntity>();
         }
 
