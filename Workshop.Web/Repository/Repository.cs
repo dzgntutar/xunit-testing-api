@@ -31,7 +31,7 @@ namespace Workshop.Web.Repository
             return await _dbSet.ToListAsync();
         }
 
-        public async Task<TEntity> GetById(int id)
+        public async Task<TEntity?> GetById(int id)
         {
             return await _dbSet.FindAsync(id);
         }

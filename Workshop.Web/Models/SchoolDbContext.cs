@@ -4,8 +4,8 @@ namespace Workshop.Web.Models
 {
     public class SchoolDbContext : DbContext
     {
-        public virtual DbSet<Student> Student { get; set; }
-        public virtual DbSet<Department> Department { get; set; }
+        public virtual DbSet<Student>? Student { get; set; }
+        public virtual DbSet<Department>? Department { get; set; }
 
         public string DbPath { get; }
 
