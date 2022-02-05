@@ -15,29 +15,30 @@ public class StudentsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IEnumerable<Student>> Get()
+    public async Task<IActionResult> GetStudents()
     {
-        return await _repository.GetAll();
+        var students = await _repository.GetAll();
+        return Ok(students);
     }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetStudent(int id)
-    {
-        var student = await _repository.GetById(id);
+    // [HttpGet("{id}")]
+    // public async Task<IActionResult> GetStudentById(int id)
+    // {
+    //     var student = await _repository.GetById(id);
 
-        if (student == null)
-        {
-            return NotFound();
-        }
+    //     if (student == null)
+    //     {
+    //         return NotFound();
+    //     }
 
-        return Ok(student);
-    }
+    //     return Ok(student);
+    // }
 
-    [HttpPost]
-    public async Task<IActionResult> Post(Student student)
-    {
-        await _repository.Create(student);
+    // [HttpPost]
+    // public async Task<IActionResult> Post(Student student)
+    // {
+    //     await _repository.Create(student);
 
-        return CreatedAtAction("GetStudent", new { id = student.Id }, student);
-    }
+    //     return CreatedAtAction("GetById", new { id = student.Id }, student);
+    // }
 }

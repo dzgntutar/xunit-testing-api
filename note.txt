@@ -1,0 +1,10 @@
+dotnet new sln --name Workshop
+dotnet new webapi --output Workshop.Web
+dotnet new test --output Workshop.Test
+dotnet new xunit --output Workshop.Test
+
+dotnet sln add Workshop.Web
+dotnet sln add Workshop.Test
+
+dotnet add  Workshop.Test/Workshop.Test.csproj reference  Workshop.Web/Workshop.Web.csproj
+dotnet add package Moq
