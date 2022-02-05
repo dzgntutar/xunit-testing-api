@@ -105,5 +105,20 @@ namespace Workshop.Test
 
             Assert.Equal(400, returnObject.StatusCode);
         }
+
+        [Theory]
+        [InlineData(1)]
+        public void UpdateStudent_ExecuteAction_ReturnNocontect(int studentId)
+        {
+            var student = students.First(x => x.Id == studentId);
+            _mockRepository.Setup(x => x.Update(student));
+
+            var result = _controller.UpdateStudent(studentId, student);
+
+            _mockRepository.Verify(c => c.Update(student), Times.Once);
+
+            Assert.IsType<NoContentResult>(result);
+
+        }
     }
 }
