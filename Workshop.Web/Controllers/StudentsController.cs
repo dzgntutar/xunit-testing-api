@@ -34,11 +34,11 @@ public class StudentsController : ControllerBase
         return Ok(student);
     }
 
-    // [HttpPost]
-    // public async Task<IActionResult> Post(Student student)
-    // {
-    //     await _repository.Create(student);
+    [HttpPost]
+    public async Task<IActionResult> SaveStudent(Student student)
+    {
+        await _repository.Create(student);
 
-    //     return CreatedAtAction("GetById", new { id = student.Id }, student);
-    // }
+        return CreatedAtAction("GetStudentById", new { id = student.Id }, student);
+    }
 }

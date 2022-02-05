@@ -63,7 +63,7 @@ namespace Workshop.Test
         [InlineData(2)]
         public async void GetStudentById_IdSend_ReturnNotFound(int studentId)
         {
-            var s = students.FirstOrDefault(x => x.Id == studentId);
+            var s = students.First(x => x.Id == studentId);
 
             _mockRepository.Setup(x => x.GetById(studentId)).ReturnsAsync(s);
 
@@ -75,6 +75,22 @@ namespace Workshop.Test
 
             Assert.Equal(studentId, s.Id);
             Assert.Equal(student.Name, s.Name);
+        }
+
+        [Fact]
+        public async void InserStudent_Execute_ReturnCreatedAtAction()
+        {
+            var student = students.First();
+
+            _mockRepository.Setup(x => x.Create(student)).Returns(Task.CompletedTask);
+
+            var result = await _controller.SaveStudent(student);
+
+            var createdAtAction = Assert.IsType<CreatedAtActionResult>(result);
+
+            _mockRepository.Verify(x => x.Create(student), Times.Once);
+
+            Assert.Equal("GetStudentById", createdAtAction.ActionName);
         }
     }
 }
