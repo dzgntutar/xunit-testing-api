@@ -21,18 +21,18 @@ public class StudentsController : ControllerBase
         return Ok(students);
     }
 
-    // [HttpGet("{id}")]
-    // public async Task<IActionResult> GetStudentById(int id)
-    // {
-    //     var student = await _repository.GetById(id);
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetStudentById(int id)
+    {
+        var student = await _repository.GetById(id);
 
-    //     if (student == null)
-    //     {
-    //         return NotFound();
-    //     }
+        if (student == null)
+        {
+            return NotFound();
+        }
 
-    //     return Ok(student);
-    // }
+        return Ok(student);
+    }
 
     // [HttpPost]
     // public async Task<IActionResult> Post(Student student)

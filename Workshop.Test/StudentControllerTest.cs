@@ -27,7 +27,7 @@ namespace Workshop.Test
             students = new List<Student>
             {
                 new Student {Id=1, Name = "Kaya",  Surname= "Özgül",  Department = "1"    },
-                new Student {Id=1, Name = "Özgür", Surname= "Murat",  Department = "1"    }
+                new Student {Id=2, Name = "Özgür", Surname= "Murat",  Department = "1"    }
             };
         }
 
@@ -40,9 +40,41 @@ namespace Workshop.Test
 
             var ok = Assert.IsType<OkObjectResult>(result);
 
-            var returnStudens = Assert.IsAssignableFrom<IEnumerable<Student>>(ok.Value);
+            var returnStudents = Assert.IsAssignableFrom<IEnumerable<Student>>(ok.Value);
 
-            Assert.Equal(returnStudens.ToList().Count, students.Count);
+            Assert.Equal(returnStudents.ToList().Count, students.Count);
+        }
+
+        [Theory]
+        [InlineData(0)]
+        public async void GetStudentById_IdInValid_ReturnNotFound(int studentId)
+        {
+            Student student = null;
+
+            _mockRepository.Setup(x => x.GetById(studentId)).ReturnsAsync(student);
+
+            var result = await _controller.GetStudentById(studentId);
+
+            Assert.IsType<NotFoundResult>(result);
+        }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public async void GetStudentById_IdSend_ReturnNotFound(int studentId)
+        {
+            var s = students.FirstOrDefault(x => x.Id == studentId);
+
+            _mockRepository.Setup(x => x.GetById(studentId)).ReturnsAsync(s);
+
+            var result = await _controller.GetStudentById(studentId);
+
+            var okMessage = Assert.IsType<OkObjectResult>(result);
+
+            Student student = Assert.IsAssignableFrom<Student>(okMessage.Value);
+
+            Assert.Equal(studentId, s.Id);
+            Assert.Equal(student.Name, s.Name);
         }
     }
 }
