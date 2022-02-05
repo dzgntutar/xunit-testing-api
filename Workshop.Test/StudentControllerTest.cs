@@ -49,7 +49,7 @@ namespace Workshop.Test
         [InlineData(0)]
         public async void GetStudentById_IdInValid_ReturnNotFound(int studentId)
         {
-            Student student = null;
+            Student? student = null;
 
             _mockRepository.Setup(x => x.GetById(studentId)).ReturnsAsync(student);
 
@@ -119,6 +119,31 @@ namespace Workshop.Test
 
             Assert.IsType<NoContentResult>(result);
 
+        }
+
+        [Theory]
+        [InlineData(0)]
+        public void DeleteStudent_ExecuteAction_ReturnNotFound(int studentId)
+        {
+            var student = students.FirstOrDefault(x => x.Id == studentId) ?? new Student();
+            _mockRepository.Setup(x => x.Delete(student));
+
+            var resultNotFound = _controller.DeleteStudent(studentId);
+
+            Assert.IsType<NotFoundResult>(resultNotFound.Result);
+        }
+
+        [Theory]
+        [InlineData(0)]
+        public void DeleteStudent_ExecuteAction_ReturnNoContent(int studentId)
+        {
+            var student = students.FirstOrDefault(x => x.Id == studentId) ?? new Student();
+            _mockRepository.Setup(x => x.GetById(studentId)).ReturnsAsync(student);
+            _mockRepository.Setup(x => x.Delete(student));
+
+            var resultNoContent = _controller.DeleteStudent(studentId);
+
+            Assert.IsType<NoContentResult>(resultNoContent.Result);
         }
     }
 }

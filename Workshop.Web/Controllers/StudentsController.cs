@@ -52,4 +52,19 @@ public class StudentsController : ControllerBase
 
         return NoContent();
     }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteStudent(int studentId)
+    {
+        var student = await _repository.GetById(studentId);
+
+        if (student == null)
+        {
+            return NotFound();
+        }
+
+        _repository.Delete(student);
+
+        return NoContent();
+    }
 }
