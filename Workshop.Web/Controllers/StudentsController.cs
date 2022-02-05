@@ -41,4 +41,15 @@ public class StudentsController : ControllerBase
 
         return CreatedAtAction("GetStudentById", new { id = student.Id }, student);
     }
+
+    [HttpPut]
+    public IActionResult UpdateStudent(int studentId, Student student)
+    {
+        if (studentId != student.Id)
+            return BadRequest();
+
+        _repository.Update(student);
+
+        return NoContent();
+    }
 }

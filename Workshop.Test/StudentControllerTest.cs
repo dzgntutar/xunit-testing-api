@@ -92,5 +92,18 @@ namespace Workshop.Test
 
             Assert.Equal("GetStudentById", createdAtAction.ActionName);
         }
+
+        [Theory]
+        [InlineData(1)]
+        public void UpdateStudent_IdIsNotInDb_ReturnBadRequest(int studentId)
+        {
+            Student student = students.First(x => x.Id == studentId);
+
+            var result = _controller.UpdateStudent(2, student);
+
+            var returnObject = Assert.IsType<BadRequestResult>(result);
+
+            Assert.Equal(400, returnObject.StatusCode);
+        }
     }
 }
