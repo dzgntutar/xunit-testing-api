@@ -134,10 +134,10 @@ namespace Workshop.Test
         }
 
         [Theory]
-        [InlineData(0)]
+        [InlineData(1)]
         public void DeleteStudent_ExecuteAction_ReturnNoContent(int studentId)
         {
-            var student = students.FirstOrDefault(x => x.Id == studentId) ?? new Student();
+            var student = students.FirstOrDefault(x => x.Id == studentId);
             _mockRepository.Setup(x => x.GetById(studentId)).ReturnsAsync(student);
             _mockRepository.Setup(x => x.Delete(student));
 
