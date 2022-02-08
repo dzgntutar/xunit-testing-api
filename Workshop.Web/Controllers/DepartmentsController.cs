@@ -16,6 +16,7 @@ public class DepartmentsController : ControllerBase
         _repository = repository;
     }
 
+    [HttpGet]
     public IActionResult GetAllDepartment()
     {
         var departments = _repository.GetAll();
