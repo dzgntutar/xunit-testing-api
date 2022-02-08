@@ -17,10 +17,9 @@ public class DepartmentsController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetAllDepartment()
+    public async Task<IActionResult> GetAllDepartment()
     {
-        var departments = _repository.GetAll();
-
+        var departments = await _repository.GetAll();
         return Ok(departments);
     }
 }
