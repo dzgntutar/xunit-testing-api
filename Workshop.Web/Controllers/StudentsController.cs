@@ -15,14 +15,14 @@ public class StudentsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetStudents()
+    public async Task<IActionResult> Get()
     {
         var students = await _repository.GetAll();
         return Ok(students);
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetStudentById(int id)
+    public async Task<IActionResult> Get(int id)
     {
         var student = await _repository.GetById(id);
 
@@ -35,7 +35,7 @@ public class StudentsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> SaveStudent(Student student)
+    public async Task<IActionResult> Post(Student student)
     {
         await _repository.Create(student);
 
@@ -43,7 +43,7 @@ public class StudentsController : ControllerBase
     }
 
     [HttpPut]
-    public IActionResult UpdateStudent(int studentId, Student student)
+    public IActionResult Update(int studentId, Student student)
     {
         if (studentId != student.Id)
             return BadRequest();
@@ -54,7 +54,7 @@ public class StudentsController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteStudent(int studentId)
+    public async Task<IActionResult> Delete(int studentId)
     {
         var student = await _repository.GetById(studentId);
 

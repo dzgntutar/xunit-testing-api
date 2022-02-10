@@ -34,7 +34,7 @@ namespace Workshop.Test
         {
             _mockRepo.Setup(x => x.GetAll()).ReturnsAsync(_departmentList);
 
-            var result = await _departmentController.GetAllDepartment();
+            var result = await _departmentController.Get();
 
             _mockRepo.Verify(_ => _.GetAll(), Times.Once);
 

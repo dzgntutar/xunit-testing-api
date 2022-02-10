@@ -36,7 +36,7 @@ namespace Workshop.Test
         {
             _mockRepository.Setup(x => x.GetAll()).ReturnsAsync(students);
 
-            var result = await _controller.GetStudents();
+            var result = await _controller.Get();
 
             var ok = Assert.IsType<OkObjectResult>(result);
 
@@ -53,7 +53,7 @@ namespace Workshop.Test
 
             _mockRepository.Setup(x => x.GetById(studentId)).ReturnsAsync(student);
 
-            var result = await _controller.GetStudentById(studentId);
+            var result = await _controller.Get(studentId);
 
             Assert.IsType<NotFoundResult>(result);
         }
@@ -67,7 +67,7 @@ namespace Workshop.Test
 
             _mockRepository.Setup(x => x.GetById(studentId)).ReturnsAsync(s);
 
-            var result = await _controller.GetStudentById(studentId);
+            var result = await _controller.Get(studentId);
 
             var okMessage = Assert.IsType<OkObjectResult>(result);
 
@@ -84,7 +84,7 @@ namespace Workshop.Test
 
             _mockRepository.Setup(x => x.Create(student)).Returns(Task.CompletedTask);
 
-            var result = await _controller.SaveStudent(student);
+            var result = await _controller.Post(student);
 
             var createdAtAction = Assert.IsType<CreatedAtActionResult>(result);
 
@@ -99,7 +99,7 @@ namespace Workshop.Test
         {
             Student student = students.First(x => x.Id == studentId);
 
-            var result = _controller.UpdateStudent(2, student);
+            var result = _controller.Update(2, student);
 
             var returnObject = Assert.IsType<BadRequestResult>(result);
 
@@ -113,7 +113,7 @@ namespace Workshop.Test
             var student = students.First(x => x.Id == studentId);
             _mockRepository.Setup(x => x.Update(student));
 
-            var result = _controller.UpdateStudent(studentId, student);
+            var result = _controller.Update(studentId, student);
 
             _mockRepository.Verify(c => c.Update(student), Times.Once);
 
@@ -128,7 +128,7 @@ namespace Workshop.Test
             var student = students.FirstOrDefault(x => x.Id == studentId);
             _mockRepository.Setup(x => x.Delete(student));
 
-            var resultNotFound = _controller.DeleteStudent(studentId);
+            var resultNotFound = _controller.Delete(studentId);
 
             Assert.IsType<NotFoundResult>(resultNotFound.Result);
         }
@@ -141,7 +141,7 @@ namespace Workshop.Test
             _mockRepository.Setup(x => x.GetById(studentId)).ReturnsAsync(student);
             _mockRepository.Setup(x => x.Delete(student));
 
-            var resultNoContent = _controller.DeleteStudent(studentId);
+            var resultNoContent = _controller.Delete(studentId);
 
             Assert.IsType<NoContentResult>(resultNoContent.Result);
         }
