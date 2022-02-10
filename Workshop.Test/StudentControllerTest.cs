@@ -125,7 +125,7 @@ namespace Workshop.Test
         [InlineData(0)]
         public void DeleteStudent_ExecuteAction_ReturnNotFound(int studentId)
         {
-            var student = students.FirstOrDefault(x => x.Id == studentId);
+            Student student = students.FirstOrDefault(x => x.Id == studentId);
             _mockRepository.Setup(x => x.Delete(student));
 
             var resultNotFound = _controller.Delete(studentId);

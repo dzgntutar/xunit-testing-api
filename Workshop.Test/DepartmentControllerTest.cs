@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Workshop.Web.Controllers;
@@ -39,6 +40,19 @@ namespace Workshop.Test
             _mockRepo.Verify(_ => _.GetAll(), Times.Once);
 
             Assert.IsType<OkObjectResult>(result);
+        }
+
+        [Theory]
+        [InlineData(0)]
+        public async void GetById_SendInvalidId_ReturnNotFound(int id)
+        {
+            Department? department = null;
+
+            _mockRepo.Setup(_ => _.GetById(id)).ReturnsAsync(department);
+
+            var result = await _departmentController.Get(id);
+
+            Assert.IsType<NotFoundResult>(result);
         }
 
     }

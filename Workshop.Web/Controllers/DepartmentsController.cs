@@ -22,4 +22,17 @@ public class DepartmentsController : ControllerBase
         var departments = await _repository.GetAll();
         return Ok(departments);
     }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Get(int id)
+    {
+        var department = await _repository.GetById(id);
+
+        if (department is null)
+        {
+            return NotFound();
+        }
+
+        return Ok(department);
+    }
 }
