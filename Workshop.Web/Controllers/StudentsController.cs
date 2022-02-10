@@ -39,7 +39,7 @@ public class StudentsController : ControllerBase
     {
         await _repository.Create(student);
 
-        return CreatedAtAction("GetStudentById", new { id = student.Id }, student);
+        return CreatedAtAction("Get", new { id = student.Id }, student);
     }
 
     [HttpPut]

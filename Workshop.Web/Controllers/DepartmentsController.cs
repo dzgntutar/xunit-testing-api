@@ -35,4 +35,12 @@ public class DepartmentsController : ControllerBase
 
         return Ok(department);
     }
+
+    [HttpPost]
+    public async Task<IActionResult> Post(Department department)
+    {
+        await _repository.Create(department);
+
+        return CreatedAtAction("Get", new { id = department.Id }, department);
+    }
 }
