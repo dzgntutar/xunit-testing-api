@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using Workshop.Web.Models;
 
 namespace Workshop.Web.Repository
@@ -41,6 +42,11 @@ namespace Workshop.Web.Repository
             _context.Entry(entity).State = EntityState.Modified;
 
             _context.SaveChanges();
+        }
+
+        public IEnumerable<TEntity> GetByExpression(Expression<Func<TEntity, bool>> filter)
+        {
+            return _dbSet.Where(filter);
         }
     }
 }

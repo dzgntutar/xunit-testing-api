@@ -90,7 +90,7 @@ namespace Workshop.Test
 
             _mockRepository.Verify(x => x.Create(student), Times.Once);
 
-            Assert.Equal("GetStudentById", createdAtAction.ActionName);
+            Assert.Equal("Get", createdAtAction.ActionName);
         }
 
         [Theory]

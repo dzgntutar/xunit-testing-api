@@ -12,15 +12,16 @@ namespace Workshop.Test
     public class DepartmentControllerTest
     {
 
-        private readonly Mock<IRepository<Department>> _mockRepo;
+        private readonly Mock<IRepository<Department>> _mockDepartmentRepository;
+        private readonly Mock<IRepository<Student>> _mockStudentRepository;
         private readonly DepartmentsController _departmentController;
-
-        private List<Department> _departmentList;
+        private readonly List<Department> _departmentList;
 
         public DepartmentControllerTest()
         {
-            _mockRepo = new Mock<IRepository<Department>>();
-            _departmentController = new DepartmentsController(_mockRepo.Object);
+            _mockDepartmentRepository = new Mock<IRepository<Department>>();
+            _mockStudentRepository = new Mock<IRepository<Student>>();
+            _departmentController = new DepartmentsController(_mockDepartmentRepository.Object, _mockStudentRepository.Object);
 
             _departmentList = new List<Department>
             {
@@ -33,26 +34,41 @@ namespace Workshop.Test
         [Fact]
         public async void GelAllDepartment_ExecuteAciton_ReturnOkMessageWithData()
         {
-            _mockRepo.Setup(x => x.GetAll()).ReturnsAsync(_departmentList);
+            _mockDepartmentRepository.Setup(x => x.GetAll()).ReturnsAsync(_departmentList);
 
             var result = await _departmentController.Get();
 
-            _mockRepo.Verify(_ => _.GetAll(), Times.Once);
+            _mockDepartmentRepository.Verify(_ => _.GetAll(), Times.Once);
 
             Assert.IsType<OkObjectResult>(result);
         }
 
         [Theory]
         [InlineData(0)]
-        public async void GetById_SendInvalidId_ReturnNotFound(int id)
+        public void GetById_SendInvalidId_ReturnNotFound(int id)
         {
             Department? department = null;
 
-            _mockRepo.Setup(_ => _.GetById(id)).ReturnsAsync(department);
+            _mockDepartmentRepository.Setup(_ => _.GetById(id)).ReturnsAsync(department);
+
+            var result = _departmentController.Get(id).Result;
+
+            //Assert.IsType<NotFoundResult>(result);
+        }
+
+        [Theory]
+        [InlineData(1)]
+        public async void GetById_SendValidId_ReturnCreatedAtAction(int id)
+        {
+            var department = _departmentList.First(x => x.Id == id);
+
+            _mockDepartmentRepository.Setup(x => x.GetById(id)).ReturnsAsync(department);
 
             var result = await _departmentController.Get(id);
 
-            Assert.IsType<NotFoundResult>(result);
+            _mockDepartmentRepository.Verify(x => x.GetById(id), Times.Once);
+
+            Assert.IsType<OkObjectResult>(result);
         }
 
     }

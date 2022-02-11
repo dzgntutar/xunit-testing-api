@@ -8,25 +8,26 @@ namespace Workshop.Web.Controllers;
 [Route("[controller]")]
 public class DepartmentsController : ControllerBase
 {
+    private readonly IRepository<Department> _repositoryDepartment;
+    private readonly IRepository<Student> _repositoryStudent;
 
-    private IRepository<Department> _repository;
-
-    public DepartmentsController(IRepository<Department> repository)
+    public DepartmentsController(IRepository<Department> repositoryDepartment, IRepository<Student> repositoryStudent)
     {
-        _repository = repository;
+        _repositoryDepartment = repositoryDepartment;
+        _repositoryStudent = repositoryStudent;
     }
 
     [HttpGet]
     public async Task<IActionResult> Get()
     {
-        var departments = await _repository.GetAll();
+        var departments = await _repositoryDepartment.GetAll();
         return Ok(departments);
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> Get(int id)
     {
-        var department = await _repository.GetById(id);
+        var department = await _repositoryDepartment.GetById(id);
 
         if (department is null)
         {
@@ -39,8 +40,16 @@ public class DepartmentsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Post(Department department)
     {
-        await _repository.Create(department);
+        await _repositoryDepartment.Create(department);
 
         return CreatedAtAction("Get", new { id = department.Id }, department);
+    }
+
+    [HttpGet("{id}/students")]
+    public IActionResult GetStudents(string id)
+    {
+        var result = _repositoryStudent.GetByExpression(x => x.Department == id);
+
+        return Ok(result);
     }
 }
