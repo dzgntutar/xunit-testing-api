@@ -92,7 +92,7 @@ namespace Workshop.Test
             var message = Assert.IsType<OkObjectResult>(response);
             var data = Assert.IsAssignableFrom<IEnumerable<Student>>(message.Value);
 
-            //_mockStudentRepository.Verify(_ => _.FilterByExpression(filter), Times.Once);
+            _mockStudentRepository.Verify(_ => _.FilterByExpression(x => x.Department == id.ToString()), Times.Once);
 
             Assert.Empty(data);
         }
