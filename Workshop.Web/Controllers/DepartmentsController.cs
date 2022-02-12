@@ -46,9 +46,9 @@ public class DepartmentsController : ControllerBase
     }
 
     [HttpGet("{id}/students")]
-    public IActionResult GetStudents(string id)
+    public IActionResult GetStudents(int id)
     {
-        var result = _repositoryStudent.GetByExpression(x => x.Department == id);
+        var result = _repositoryStudent.FilterByExpression(x => x.Department == id.ToString());
 
         return Ok(result);
     }

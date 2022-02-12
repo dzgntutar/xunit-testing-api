@@ -15,6 +15,6 @@ namespace Workshop.Web.Repository
 
         void Delete(TEntity entity);
 
-        IEnumerable<TEntity> GetByExpression(Expression<Func<TEntity, bool>> filter);
+        IEnumerable<TEntity> FilterByExpression(Expression<Func<TEntity, bool>> filter);
     }
 }

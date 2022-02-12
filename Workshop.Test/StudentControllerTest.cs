@@ -17,7 +17,7 @@ namespace Workshop.Test
         private readonly Mock<IRepository<Student>> _mockRepository;
         private readonly StudentsController _controller;
 
-        private List<Student> students;
+        private readonly List<Student> students;
 
         public StudentControllerTest()
         {
@@ -27,7 +27,7 @@ namespace Workshop.Test
             students = new List<Student>
             {
                 new Student {Id=1, Name = "Kaya",  Surname= "Özgül",  Department = "1"    },
-                new Student {Id=2, Name = "Özgür", Surname= "Murat",  Department = "1"    }
+                new Student {Id=2, Name = "Özgür", Surname= "Murat",  Department = "2"    }
             };
         }
 

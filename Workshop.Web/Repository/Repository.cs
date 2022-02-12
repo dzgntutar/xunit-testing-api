@@ -44,7 +44,7 @@ namespace Workshop.Web.Repository
             _context.SaveChanges();
         }
 
-        public IEnumerable<TEntity> GetByExpression(Expression<Func<TEntity, bool>> filter)
+        public IEnumerable<TEntity> FilterByExpression(Expression<Func<TEntity, bool>> filter)
         {
             return _dbSet.Where(filter);
         }
